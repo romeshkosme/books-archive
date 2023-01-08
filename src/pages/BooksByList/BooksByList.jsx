@@ -7,7 +7,9 @@ import BooksTable from "../../components/BooksTable";
 function BooksByList() {
 	const { list_type } = useParams();
 	const [BOOKS, SET_BOOKS] = useState([]);
+	const [loading, setLoading] =useState(false);
 	const FETCH_BOOKS = () => {
+		setLoading(true)
 		axios
 			.get(
 				`/lists.json?list=${list_type}&api-key=${
@@ -16,7 +18,6 @@ function BooksByList() {
 			)
 			.then((response) => {
 				if (response.data && response.data.results) {
-					console.log(response.data.results);
 					SET_BOOKS(response.data.results);
 				}
 			})
@@ -25,6 +26,7 @@ function BooksByList() {
 			})
 			.finally(() => {
 				// stop loader
+				setLoading(false)
 			});
 	};
 	useEffect(() => {
@@ -38,16 +40,16 @@ function BooksByList() {
 					BOOKS.map((book, index) => (
 						<tr key={index} className='hover:bg-gray-100 text-black'>
 							<td className='p-2 border-b'>{index + 1}</td>
-							<td className='p-2 border-b cursor-pointer hover:underline'>
+							<td className='p-2 border-b cursor-normal'>
 								{book.book_details && book.book_details[0] && book.book_details[0]['title']}
 							</td>
-              <td className='p-2 border-b cursor-pointer hover:underline'>
+              <td className='p-2 border-b cursor-normal'>
 								{book.book_details && book.book_details[0] && book.book_details[0]['author']}
 							</td>
-              <td className='p-2 border-b cursor-pointer hover:underline'>
+              <td className='p-2 border-b cursor-normal'>
 								{book.book_details && book.book_details[0] && book.book_details[0]['publisher']}
 							</td>
-              <td className='p-2 border-b cursor-pointer hover:underline'>
+              <td className='p-2 border-b cursor-normal'>
 								{book.book_details && book.book_details[0] && book.book_details[0]['description']}
 							</td>
 						</tr>
@@ -61,6 +63,7 @@ function BooksByList() {
         title={`Books by List`}
         header={BOOKS_BY_LIST_HEADERS}
         tableData={createTableBody()}
+				loading={loading}
       />
 		</>
 	);

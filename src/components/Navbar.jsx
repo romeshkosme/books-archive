@@ -6,7 +6,7 @@ function Navbar() {
 		<>
 			<nav className='bg-custom-dark-blue text-white'>
 				<ul className='flex p-2 max-w-7xl mx-auto'>
-					<li className='p-2 hover:font-bold'>
+					<li className='p-2'>
 						<Link to='/'>Home</Link>
 					</li>
 					{/* <li className='p-2 hover:font-bold dropdown'>

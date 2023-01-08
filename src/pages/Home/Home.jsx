@@ -1,5 +1,5 @@
 import { memo } from "react";
-import BookList from "../BookList.jsx/BookList";
+import BookList from "../BookList/BookList";
 import "./Home.css";
 
 function Home() {

@@ -6,7 +6,10 @@ import { Link } from "react-router-dom";
 
 function BookList() {
 	const [LISTS, SET_LISTS] = useState([]);
+	const [loading, setLoading] = useState(false);
+
 	const FETCH_LIST = () => {
+		setLoading(true);
 		axios
 			.get(`/lists/names.json?api-key=${import.meta.env.VITE_NYC_API_KEY}`)
 			.then((response) => {
@@ -17,7 +20,9 @@ function BookList() {
 			.catch((error) => {
 				console.log(error);
 			})
-			.finally(() => {});
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 	useEffect(() => {
 		if (!LISTS || LISTS.length === 0) {
@@ -33,7 +38,9 @@ function BookList() {
 						<tr key={index} className='hover:bg-gray-100'>
 							<td className='p-2 border-b'>{index + 1}</td>
 							<td className='p-2 border-b cursor-pointer hover:underline'>
-								<Link to={`/books/lists/${list.list_name_encoded}`}>{list.display_name}</Link>
+								<Link to={`/books/lists/${list.list_name_encoded}`}>
+									{list.display_name}
+								</Link>
 							</td>
 						</tr>
 					))}
@@ -46,6 +53,7 @@ function BookList() {
 				title={"NYC Best Seller List Names"}
 				header={LIST_HEADERS}
 				tableData={createTableBody()}
+				loading={loading}
 			/>
 		</>
 	);
